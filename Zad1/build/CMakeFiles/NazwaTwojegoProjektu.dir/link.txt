@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/NazwaTwojegoProjektu.dir/main.cpp.o CMakeFiles/NazwaTwojegoProjektu.dir/Problem.cpp.o CMakeFiles/NazwaTwojegoProjektu.dir/Zadanie.cpp.o -o NazwaTwojegoProjektu 

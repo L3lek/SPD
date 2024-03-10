@@ -1,0 +1,3 @@
+/home/niko/studia/spd/Zad1/build/CMakeFiles/Zadanie1.dir
+/home/niko/studia/spd/Zad1/build/CMakeFiles/edit_cache.dir
+/home/niko/studia/spd/Zad1/build/CMakeFiles/rebuild_cache.dir
