@@ -36,5 +36,5 @@ bool Zadanie::compare_rj(Zadanie z1, Zadanie z2) {
 }
 
 bool Zadanie::compare_qj(Zadanie z1, Zadanie z2) {
-    return (z1.qj<z2.qj);
+    return (z1.qj>z2.qj);
 }
