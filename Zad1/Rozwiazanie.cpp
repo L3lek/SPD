@@ -3,18 +3,20 @@
 #include <iostream>
 #include <algorithm>
 #include <queue>
+#include <limits>
+
 
 Rozwiazanie::Rozwiazanie(double kryterium, const std::vector<int> &uszereg){
     Rozwiazanie::kryterium=kryterium;
     Rozwiazanie::uszereg=uszereg;
-    Rozwiazanie::czas=10000;
+    Rozwiazanie::czas=std::numeric_limits<int>::max();
 }
 
 Rozwiazanie::Rozwiazanie(){
     std::vector<int> szereg;
     Rozwiazanie::kryterium=0;
     Rozwiazanie::uszereg=szereg;
-    Rozwiazanie::czas=10000;
+    Rozwiazanie::czas= std::numeric_limits<int>::max();
 }
 
 double Rozwiazanie::oblicz_kryterium(Problem &dane, int i) {
@@ -45,7 +47,7 @@ void Rozwiazanie::wyswietl() {
     for (int i = 0; i < Rozwiazanie::uszereg.size(); ++i) {
         std::cout<<Rozwiazanie::uszereg[i]<<" ";
     }
-    std::cout<<std::endl<<"Wyliczone kryterium: "<<Rozwiazanie::kryterium<<std::endl;
+    std::cout<<std::endl<<"Najlepszy czas: "<<Rozwiazanie::czas<<std::endl;
 }
 
 void Rozwiazanie::pobierz_kolejnosc(Problem &dane) {
@@ -95,34 +97,71 @@ void Rozwiazanie::wybierz_metode(Problem &dane) {
         }
 }
 
-void Rozwiazanie::generuj_permutacje(std::vector<int>& szereg, int indeks, Problem &dane) {
-    if (indeks == szereg.size() - 1) {
-        Rozwiazanie rozw;
-        rozw.oblicz_kryterium(dane,dane.getDane().size()-1);
-        if(rozw.kryterium < this->getCzas()){
-            this->czas=rozw.kryterium;
-            this->uszereg=szereg;
-            this->kryterium=rozw.kryterium;
+void Rozwiazanie::przeglad_zupelny(Problem& dane) {
+    std::vector<Zadanie> perm = dane.getDane();
+    std::vector<int> indeksy;
+
+    for (int i = 0; i < dane.getN(); ++i) {
+        indeksy.push_back(perm[i].getNum());
+    }
+
+
+    do {
+        // for (int i = 0; i < dane.getN(); ++i) {
+        //     if (perm[i].getNum() != indeksy[i]) {
+        //         for (int j = 0; j < dane.getN(); ++j) {
+        //             if (perm[j].getNum() == indeksy[i]) {
+        //                 std::swap(perm[i], perm[j]);
+        //                 break;
+        //             }
+        //         }
+        //     }
+        // }
+
+        // dane.setDane(perm);
+
+        double czas= dane.licz_czas(indeksy);
+        // double czas = oblicz_kryterium(dane, dane.getN() - 1);
+        if (czas < this->czas) {
+            this->czas = czas;
+            this->setUszereg(indeksy);
         }
-        return;
-    }
-
-    for (int i = indeks; i < szereg.size(); ++i) {
-        std::swap(szereg[indeks], szereg[i]);
-        generuj_permutacje(szereg, indeks + 1, dane);
-        std::swap(szereg[indeks], szereg[i]);
-
-    }
+    } while (std::next_permutation(indeksy.begin(), indeksy.end()));
 }
 
-void Rozwiazanie::przeglad_zupelny(Problem &dane) {
-    std::vector<int> szereg;
-    for (int i = 1; i <= dane.getN(); ++i) {
-        szereg.push_back(i);
-    }
-    generuj_permutacje(szereg, 0, dane);
 
-}
+// void Rozwiazanie::generuj_permutacje(Problem &dane, int indeks) {
+//     std::vector<Zadanie>  permutation = dane.getDane();
+//     if (indeks == permutation.size()) {
+//         std::vector<int> tmp;
+//         for (int i = 0; i < permutation.size(); ++i) {
+//             tmp.push_back(permutation[i].getNum());
+//         }
+//         // for (int i = 0; i < tmp.size(); i++) {
+//         //     std::cout << tmp[i] << " ";
+//         // }
+//         // std::cout << std::endl;
+//         double time = dane.licz_czas(tmp);
+//         if(time<this->czas){
+//             this->czas=time;
+//             this->setUszereg(tmp);
+//         }
+//     return;
+// }
+//     std::cout<<"!";
+//     for (int i = indeks; i < permutation.size(); ++i) {
+//         std::swap(permutation[indeks], permutation[i]);
+//         dane.setDane(permutation);
+//         generuj_permutacje(dane, indeks + 1);
+//         std::swap(permutation[indeks], permutation[i]);
+//         dane.setDane(permutation);
+//         }
+//     }
+
+//     void Rozwiazanie::przeglad_zupelny(Problem &dane) {
+//         generuj_permutacje(dane, 0);
+//         std::cout << "Najkrótszy czas: " << czas << std::endl;
+//     }
 
 void Rozwiazanie::Schrage_prmt(Problem &dane){
     double t = 0, Cmax = 0, czas_zakonczenia;
@@ -238,8 +277,5 @@ void Rozwiazanie::Schrage(Problem &dane) {
         t += najpozniejsze_qj;
         Cmax = std::max(Cmax, t); // Aktualizacja Cmax
     }
-
-
-    kryterium = Cmax;
-    this->wyswietl();
+    czas = Cmax;
 }

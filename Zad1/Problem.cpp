@@ -67,19 +67,19 @@ void Problem::sort_qj() {
     std::sort(Problem::dane.begin(), Problem::dane.end(), Zadanie::compare_qj);
 }
 
-// double Problem::licz_czas(std::vector<int> kolejnosc) {
-//     double czas_caly = 0;
-//     double cmax=0;
-//     for (int i = 0; i < this->getN(); ++i){
-//         Zadanie pom = this->dane[kolejnosc[i]-1];
-//         if(i==0){
-//             cmax=pom.getPj()+pom.getRj();
-//             czas_caly = cmax+pom.getQj();
-//         }else{
-//             czas_caly = std::max(std::max(cmax, pom.getRj()) + pom.getPj()+pom.getQj(), czas_caly);
-//             cmax=std::max(cmax, pom.getRj()) + pom.getPj();
-//         }
-//     }
-//     // std::cout << czas_caly << std::endl;
-//     return czas_caly;
-// }
+double Problem::licz_czas(std::vector<int> kolejnosc) {
+    double czas_caly = 0;
+    double cmax=0;
+    for (int i = 0; i < this->getN(); ++i){
+        Zadanie pom = this->dane[kolejnosc[i]-1];
+        if(i==0){
+            cmax=pom.getPj()+pom.getRj();
+            czas_caly = cmax+pom.getQj();
+        }else{
+            czas_caly = std::max(std::max(cmax, pom.getRj()) + pom.getPj()+pom.getQj(), czas_caly);
+            cmax=std::max(cmax, pom.getRj()) + pom.getPj();
+        }
+    }
+    // std::cout << czas_caly << std::endl;
+    return czas_caly;
+}

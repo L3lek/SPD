@@ -59,7 +59,7 @@ public:
 
     void przeglad_zupelny(Problem &dane);
 
-    void generuj_permutacje(std::vector<int> &szereg, int index, Problem &dane);
+    // void generuj_permutacje(Problem &dane, int indeks);
 
     void Schrage_prmt(Problem &dane);
     void Schrage(Problem &dane);

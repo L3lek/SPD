@@ -30,6 +30,7 @@ public:
     void wczytaj_dane(std::string& nazwaPliku);
     void sort_rj();
     void sort_qj();
+    double licz_czas(std::vector<int> kolejnosc);
 };
 
 
