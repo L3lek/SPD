@@ -4,22 +4,11 @@
 #include <vector>
 #include "Problem.h"
 
-
 class Rozwiazanie {
 private:
     double kryterium;
-    double czas;
     std::vector<int> uszereg;
-
-    struct HeapComparator {
-        const std::vector<Zadanie> &N;
-
-        HeapComparator(const std::vector<Zadanie> &N) : N(N) {}
-
-        bool operator()(int a, int b) {
-            return N[a].getRj() < N[b].getRj();
-        }
-    };
+    double czas;
 
     struct CompareRj {
         bool operator()(const Zadanie &a, const Zadanie &b) {
@@ -36,8 +25,8 @@ private:
 public:
     double getKryterium() const {return kryterium;}
     const std::vector<int> &getUszereg() const {return uszereg;}
-
     double getCzas() const {return czas;}
+
 
     void setKryterium(double kryterium) {
         Rozwiazanie::kryterium = kryterium;
@@ -45,6 +34,9 @@ public:
 
     void setUszereg(const std::vector<int> &uszereg) {
         Rozwiazanie::uszereg = uszereg;
+    }
+    void setCzas(double czas) {
+        Rozwiazanie::czas = czas;
     }
 
     Rozwiazanie(double kryterium, const std::vector<int> &uszereg);
@@ -54,15 +46,11 @@ public:
     void wyswietl();
     void wybierz_metode(Problem &dane);
     void pobierz_kolejnosc(Problem &dane);
-    void policz_wszystkie_metody(Problem &dane);
-    
 
     void przeglad_zupelny(Problem &dane);
 
-    // void generuj_permutacje(Problem &dane, int indeks);
-
-    void Schrage_prmt(Problem &dane);
-    void Schrage(Problem &dane);
+    void generuj_permutacje(std::vector<int> &szereg, int index, Problem &dane);
+    double Schrage(Problem &dane);
 
     int max_qj(std::vector<Zadanie> dane){
         int max=dane[0].getQj();
@@ -76,6 +64,18 @@ public:
         }
         return indeks;
     }
+
+    double Schrage_pmtn(Problem &dane);
+
+    void uporzadkuj_dane(Problem &dane);
+
+    double Carlier(Problem &dane,double UB);
+    int znajdz_b(std::vector<Zadanie>, double C_max);
+    int znajdz_a(std::vector<Zadanie>, int b);
+    int znajdz_c(std::vector<Zadanie>, int a, int b);
+
+
+
 };
 
 

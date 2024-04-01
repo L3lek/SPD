@@ -1,22 +1,19 @@
 #include <iostream>
 #include <fstream>
-#include <limits>
 #include <bits/stdc++.h>
 #include "Problem.h"
 
-Problem::Problem(int n, const std::vector<Zadanie> &dane){
+Problem::Problem(int n, std::vector<Zadanie> &dane){
     Problem::n=n;
     Problem::dane=dane;
 }
-
 Problem::Problem(){
     std::vector<Zadanie> Dane;
     Problem::n=0;
     Problem::dane=Dane;
 }
-
-void Problem::generuj_instancje(int rozmiar) {
-    for (int i = 0; i < rozmiar; ++i) {
+void Problem::generuj_instancje() {
+    for (int i = 0; i < n; ++i) {
         Zadanie tmp;
         tmp.generuj_wartosci();
         tmp.setNum(i+1);
@@ -44,15 +41,15 @@ void Problem::wczytaj_dane(std::string& nazwaPliku) {
         plik.close();
         return;
     }
-    for (int i = 0; i < n; ++i) {
+    for (int i = 1; i <= n; ++i) {
         double pj,rj,qj;
         plik >> rj >> pj >> qj;
         if (plik.fail()) {
-            std::cerr << "Blad podczas wczytywania danych dla zadania " << i + 1<< std::endl;
+            std::cerr << "Blad podczas wczytywania danych dla zadania " << i << std::endl;
             plik.close();
             return;
         }
-        Zadanie tmp(i+1,pj,rj,qj);
+        Zadanie tmp(i,pj,rj,qj);
         this->dane.push_back(tmp);
     }
     std::cout<<"Dane wczytane"<<std::endl;
@@ -65,6 +62,19 @@ std::sort(Problem::dane.begin(), Problem::dane.end(), Zadanie::compare_rj);
 
 void Problem::sort_qj() {
     std::sort(Problem::dane.begin(), Problem::dane.end(), Zadanie::compare_qj);
+}
+
+void Problem::sort_qp() {
+    std::sort(Problem::dane.begin(), Problem::dane.end(), Zadanie::compare_qp);
+}
+void Problem::losowo() {
+    Problem pom;
+    for (int i = n; i >0 ; --i) {
+        int tmp = rand()%i;
+        pom.dane[i]= this->dane[tmp];
+        this->dane.erase(dane.begin()+tmp);
+    }
+    this->dane = pom.dane;
 }
 
 double Problem::licz_czas(std::vector<int> kolejnosc) {
@@ -83,3 +93,4 @@ double Problem::licz_czas(std::vector<int> kolejnosc) {
     // std::cout << czas_caly << std::endl;
     return czas_caly;
 }
+

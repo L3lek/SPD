@@ -151,4 +151,4 @@ CMakeFiles/Zadanie1.dir/main.cpp.o: /home/niko/studia/spd/Zad1/main.cpp \
  /usr/include/c++/11/bits/stl_vector.h \
  /usr/include/c++/11/bits/stl_bvector.h \
  /usr/include/c++/11/bits/vector.tcc \
- /home/niko/studia/spd/Zad1/Rozwiazanie.h
+ /home/niko/studia/spd/Zad1/Rozwiazanie.h /usr/include/c++/11/limits

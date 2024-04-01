@@ -33,10 +33,13 @@ public:
     void wyswietl_zadanie();
     static bool compare_qj(Zadanie z1, Zadanie z2);
     static bool compare_rj(Zadanie z1, Zadanie z2);
+    static bool compare_qp(Zadanie z1, Zadanie z2);
     bool operator==(const Zadanie& z2) {
-    return this->getNum() == z2.getNum() && this->getPj() == z2.getPj() &&
-           this->getRj() == z2.getRj() && this->getQj() == z2.getQj();
+        return this->getNum() == z2.getNum() && this->getPj() == z2.getPj() &&
+               this->getRj() == z2.getRj() && this->getQj() == z2.getQj();
     }
+
+
 };
 
 

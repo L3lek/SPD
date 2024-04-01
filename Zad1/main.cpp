@@ -2,13 +2,14 @@
 #include "Zadanie.h"
 #include "Problem.h"
 #include "Rozwiazanie.h"
+#include <limits>
 
 int main() {
     Problem test;
     Rozwiazanie wynik;
-    std::string nazwaPliku = "../dane3.txt";
+    std::string nazwaPliku = "../dane2.txt";
     test.wczytaj_dane(nazwaPliku);
-//    test.generuj_instancje(5);
+//    test.generuj_instancje();
     wynik.wyswietl_menu();
     wynik.wybierz_metode(test);
     wynik.wyswietl();
