@@ -67,15 +67,6 @@ void Problem::sort_qj() {
 void Problem::sort_qp() {
     std::sort(Problem::dane.begin(), Problem::dane.end(), Zadanie::compare_qp);
 }
-void Problem::losowo() {
-    Problem pom;
-    for (int i = n; i >0 ; --i) {
-        int tmp = rand()%i;
-        pom.dane[i]= this->dane[tmp];
-        this->dane.erase(dane.begin()+tmp);
-    }
-    this->dane = pom.dane;
-}
 
 double Problem::licz_czas(std::vector<int> kolejnosc) {
     double czas_caly = 0;
@@ -90,7 +81,9 @@ double Problem::licz_czas(std::vector<int> kolejnosc) {
             cmax=std::max(cmax, pom.getRj()) + pom.getPj();
         }
     }
-    // std::cout << czas_caly << std::endl;
     return czas_caly;
 }
+
+
+
 

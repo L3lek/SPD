@@ -15,16 +15,17 @@ Rozwiazanie::Rozwiazanie(){
     Rozwiazanie::uszereg=szereg;
 }
 
-double Rozwiazanie::oblicz_kryterium(Problem &dane, int i) {
-    double cmax;
-    Zadanie tmp=dane.getDane()[i];
-    if (i==0){
-        cmax= tmp.getRj() + tmp.getPj();
-    }else{
-        double pop = oblicz_kryterium(dane,i-1);
-        cmax = std::max(pop, tmp.getRj()) + tmp.getPj();
+double Rozwiazanie::oblicz_kryterium(Problem &dane) {
+    double cmax=0,pom=0;
+    for(int i=0;i<dane.getDane().size();i++){
+        if (i==0){
+            pom= dane.getDane()[i].getRj() + dane.getDane()[i].getPj();
+            cmax = std::max(cmax,pom+dane.getDane()[i].getQj());
+        }else{
+            pom = std::max(pom, dane.getDane()[i].getRj()) + dane.getDane()[i].getPj();
+            cmax = std::max(cmax,pom+dane.getDane()[i].getQj());
+        }
     }
-    this->kryterium=std::max(this->kryterium, cmax+tmp.getQj());
     return cmax;
 }
 
@@ -36,8 +37,7 @@ void Rozwiazanie::wyswietl_menu() {
     std::cout<<"4 - Schrage "<<std::endl;
     std::cout<<"5 - Schrage z wywlaszczeniem "<<std::endl;
     std::cout<<"6 - sortowanie po qj + pj "<<std::endl;
-    std::cout<<"7 - losowa kolejnosc "<<std::endl;
-    std::cout<<"8 - Carlier "<<std::endl;
+    std::cout<<"7 - Carlier "<<std::endl;
 }
 
 void Rozwiazanie::wyswietl() {
@@ -63,7 +63,7 @@ void Rozwiazanie::wybierz_metode(Problem &dane) {
             case 1: {
                 auto start = std::chrono::high_resolution_clock::now();
                 dane.sort_rj();
-                this->oblicz_kryterium(dane,dane.getDane().size()-1);
+                kryterium=oblicz_kryterium(dane);
                 this->pobierz_kolejnosc(dane);
                 auto end = std::chrono::high_resolution_clock::now();
                 auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
@@ -73,7 +73,7 @@ void Rozwiazanie::wybierz_metode(Problem &dane) {
             case 2: {
                 auto start = std::chrono::high_resolution_clock::now();
                 dane.sort_qj();
-                this->oblicz_kryterium(dane,dane.getDane().size()-1);
+                kryterium=oblicz_kryterium(dane);
                 this->pobierz_kolejnosc(dane);
                 auto end = std::chrono::high_resolution_clock::now();
                 auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
@@ -106,7 +106,7 @@ void Rozwiazanie::wybierz_metode(Problem &dane) {
             case 6: {
                 auto start = std::chrono::high_resolution_clock::now();
                 dane.sort_qp();
-                this->oblicz_kryterium(dane,dane.getDane().size()-1);
+                kryterium=oblicz_kryterium(dane);
                 this->pobierz_kolejnosc(dane);
                 auto end = std::chrono::high_resolution_clock::now();
                 auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
@@ -114,12 +114,6 @@ void Rozwiazanie::wybierz_metode(Problem &dane) {
                 break;
             }
             case 7: {
-                dane.losowo();
-                this->oblicz_kryterium(dane,dane.getDane().size()-1);
-                this->pobierz_kolejnosc(dane);
-                break;
-            }
-            case 8: {
                 double UB = std::numeric_limits<double>::infinity();
                 auto start = std::chrono::high_resolution_clock::now();
                 kryterium=Carlier(dane,UB);
@@ -170,7 +164,6 @@ double Rozwiazanie::Schrage(Problem &dane) {
     }
 
     return Cmax;
-    // this->wyswietl();
 }
 
 void Rozwiazanie::przeglad_zupelny(Problem& dane) {
@@ -194,7 +187,7 @@ void Rozwiazanie::przeglad_zupelny(Problem& dane) {
 }
 
 double Rozwiazanie::Schrage_pmtn(Problem &dane){
-    double t = 0, Cmax = 0, czas_zakonczenia;
+    double t = 0, Cmax = 0, czas_zakonczenia=0;
     int ip=0;
     bool przyjechało = false;
     std::vector<Zadanie> Gotowe;
@@ -231,7 +224,6 @@ double Rozwiazanie::Schrage_pmtn(Problem &dane){
             Zadanie& wykonywane = Gotowe[0];
 
             if(wykonywane.getNum()!=ip){
-                // std::cout<<"("<<wykonywane.getNum()<<", "<<t<<")"<<std::endl;
                 ip=wykonywane.getNum();
             }
             wykonywane.setPj(wykonywane.getPj()-1);
@@ -246,7 +238,6 @@ double Rozwiazanie::Schrage_pmtn(Problem &dane){
     }
 
     return Cmax;
-    // std::cout<<"Czas wykonania wynosi: "<<Cmax<<std::endl;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -268,47 +259,59 @@ void Rozwiazanie::uporzadkuj_dane(Problem &dane) {
     dane.setDane(posortowane_dane);
 }
 
-int find_b(std::vector<Zadanie>& dane, int C_max) {
+int Rozwiazanie::find_b(Problem& dane, int C_max) {
     int b = -1;
-    for (int j = dane.size() - 1; j >= 0; j--) {
-        if (C_max == dane[j].getRj() + dane[j].getQj()) {
+    double C=0;
+    for(int i=0;i<dane.getDane().size();i++){
+        if (i==0){
+            C= dane.getDane()[i].getRj() + dane.getDane()[i].getPj();
+        }else{
+            C = std::max(C, dane.getDane()[i].getRj()) + dane.getDane()[i].getPj();
+        }
+    }
+
+    for (int j = dane.getDane().size()-1; j >=0 ; j--) {
+        if (C_max == C + dane.getDane()[j].getQj()) {
             b = j;
             return b;
         }
+        C=C-dane.getDane()[j].getPj();
     }
-    return -1;
+    return b;
 }
 
-int find_a(std::vector<Zadanie>& dane, int C_max, int b) {
-    int a = -1;
+int Rozwiazanie::find_a(Problem& dane, int C_max, int b) {
+    int a = 0;
     int sum = 0;
     for (int j = 0; j <= b; j++) {
         sum = 0;
         for (int s = j; s <= b; s++) {
-            sum += dane[s].getPj();
+            sum += dane.getDane()[s].getPj();
         }
-        if (C_max == (dane[j].getRj() + sum + dane[b].getQj())) {
+        if (C_max == (dane.getDane()[j].getRj() + sum + dane.getDane()[b].getQj())) {
             a = j;
             return a;
         }
     }
-    return -1;
+    return 0;
 }
 
-int find_c(std::vector<Zadanie>& dane, int b, int a) {
+int Rozwiazanie::find_c(Problem& dane, int b, int a) {
     int c = -1;
-    for (int j = b; j >= a; j--) {
-        if (dane[j].getQj() < dane[b].getQj()) {
+
+    for (int j = a; j <= b; j++) {
+        if (dane.getDane()[j].getQj() < dane.getDane()[b].getQj()) {
             c = j;
             return c;
         }
     }
-    return -1;
+    return c;
 }
 
 double Rozwiazanie::Carlier(Problem& problem, double UB) {
-    std::vector<Zadanie> PI = problem.getDane();
+    Problem wzor=problem;
     double U = 0;
+    double UB_min= std::numeric_limits<double>::infinity();
     double LB = 0;
     int a = -1;
     int b = -1;
@@ -321,8 +324,8 @@ double Rozwiazanie::Carlier(Problem& problem, double UB) {
     double q = std::numeric_limits<double>::infinity();
     double r_ref = 0;
     double q_ref = 0;
-    int nr_ref = 0;
-    
+    int nr_ref_r = 0,nr_ref_q = 0;
+
     U = Schrage(problem);
     uporzadkuj_dane(problem);
 
@@ -330,9 +333,15 @@ double Rozwiazanie::Carlier(Problem& problem, double UB) {
         UB = U;
     }
 
-    b = find_b(problem.getDane(), U);
-    a = find_a(problem.getDane(), U, b);
-    c = find_c(problem.getDane(), b, a);
+    // std::cout<<UB<<std::endl;
+    // for(int i=0;i<uszereg.size();i++){
+    //     std::cout<<uszereg[i]<<" ";
+    // }
+    // std::cout<<std::endl;
+
+    b = find_b(problem, U);  
+    a = find_a(problem, U, b);
+    c = find_c(problem, b, a);
 
     if (c == -1) {
         return UB;
@@ -343,48 +352,33 @@ double Rozwiazanie::Carlier(Problem& problem, double UB) {
         q_prim = std::min(q_prim, problem.getDane()[j].getQj());
         p_prim += problem.getDane()[j].getPj();
     }
-    double h = r_prim + q_prim + p_prim;
-    for (int j = c; j <= b; j++) {
-        r = std::min(r_prim, problem.getDane()[j].getRj());
-        q = std::min(q_prim, problem.getDane()[j].getQj());
-        p += problem.getDane()[j].getPj();
-    }
-    double h_2 = r + q + p;
 
-    nr_ref = problem.getDane()[c].getNum();
     r_ref = problem.getDane()[c].getRj();
-    
+    nr_ref_r= problem.getDane()[c].getNum();
+
     problem.getDane()[c].setRj(std::max(problem.getDane()[c].getRj(), r_prim + p_prim));
 
-    LB = this->Schrage_pmtn(problem);
+    LB= this->Schrage_pmtn(problem);
 
     if (LB < UB) {
         UB = Carlier(problem, UB);
     }
 
-    for (int j = 0; j < problem.getDane().size(); j++) {
-        if (nr_ref == problem.getDane()[j].getNum()) {
-            problem.getDane()[j].setRj(r_ref);
-        }
-    }
+    problem.getDane()[c].setRj(r_ref);
 
-    nr_ref = problem.getDane()[c].getNum();
     q_ref = problem.getDane()[c].getQj();
+    nr_ref_q= problem.getDane()[c].getNum();
 
     problem.getDane()[c].setQj(std::max(problem.getDane()[c].getQj(), q_prim + p_prim));
 
     LB = this->Schrage_pmtn(problem);
-
     if (LB < UB) {
         UB = Carlier(problem, UB);
     }
 
-    for (int j = 0; j < problem.getDane().size(); j++) {
-        if (nr_ref == problem.getDane()[j].getNum()) {
-            problem.getDane()[j].setQj(q_ref);
-        }
-    }
+
+    problem.getDane()[c].setQj(q_ref);
+
 
     return UB;
 }
-

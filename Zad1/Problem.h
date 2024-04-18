@@ -33,8 +33,6 @@ public:
     double licz_czas(std::vector<int> kolejnosc);
 
     void sort_qp();
-
-    void losowo();
 };
 
 

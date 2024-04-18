@@ -9,7 +9,6 @@ int main() {
     Rozwiazanie wynik;
     std::string nazwaPliku = "../dane2.txt";
     test.wczytaj_dane(nazwaPliku);
-//    test.generuj_instancje();
     wynik.wyswietl_menu();
     wynik.wybierz_metode(test);
     wynik.wyswietl();

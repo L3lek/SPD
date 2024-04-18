@@ -8,7 +8,6 @@ class Rozwiazanie {
 private:
     double kryterium;
     std::vector<int> uszereg;
-    double czas;
 
     struct CompareRj {
         bool operator()(const Zadanie &a, const Zadanie &b) {
@@ -25,7 +24,6 @@ private:
 public:
     double getKryterium() const {return kryterium;}
     const std::vector<int> &getUszereg() const {return uszereg;}
-    double getCzas() const {return czas;}
 
 
     void setKryterium(double kryterium) {
@@ -35,13 +33,10 @@ public:
     void setUszereg(const std::vector<int> &uszereg) {
         Rozwiazanie::uszereg = uszereg;
     }
-    void setCzas(double czas) {
-        Rozwiazanie::czas = czas;
-    }
 
     Rozwiazanie(double kryterium, const std::vector<int> &uszereg);
     Rozwiazanie();
-    double oblicz_kryterium(Problem &dane, int i);
+    double oblicz_kryterium(Problem &dane);
     void wyswietl_menu();
     void wyswietl();
     void wybierz_metode(Problem &dane);
@@ -70,12 +65,9 @@ public:
     void uporzadkuj_dane(Problem &dane);
 
     double Carlier(Problem &dane,double UB);
-    int znajdz_b(std::vector<Zadanie>, double C_max);
-    int znajdz_a(std::vector<Zadanie>, int b);
-    int znajdz_c(std::vector<Zadanie>, int a, int b);
-
-
-
+    int find_b(Problem& dane, int C_max); 
+    int find_a(Problem& dane, int C_max, int b); 
+    int find_c(Problem&, int a, int b);
 };
 
 
