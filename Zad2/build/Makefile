@@ -177,6 +177,30 @@ Rozwiazanie2p.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Zadanie2.dir/build.make CMakeFiles/Zadanie2.dir/Rozwiazanie2p.cpp.s
 .PHONY : Rozwiazanie2p.cpp.s
 
+Rozwiazanie3p.o: Rozwiazanie3p.cpp.o
+.PHONY : Rozwiazanie3p.o
+
+# target to build an object file
+Rozwiazanie3p.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Zadanie2.dir/build.make CMakeFiles/Zadanie2.dir/Rozwiazanie3p.cpp.o
+.PHONY : Rozwiazanie3p.cpp.o
+
+Rozwiazanie3p.i: Rozwiazanie3p.cpp.i
+.PHONY : Rozwiazanie3p.i
+
+# target to preprocess a source file
+Rozwiazanie3p.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Zadanie2.dir/build.make CMakeFiles/Zadanie2.dir/Rozwiazanie3p.cpp.i
+.PHONY : Rozwiazanie3p.cpp.i
+
+Rozwiazanie3p.s: Rozwiazanie3p.cpp.s
+.PHONY : Rozwiazanie3p.s
+
+# target to generate assembly for a file
+Rozwiazanie3p.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Zadanie2.dir/build.make CMakeFiles/Zadanie2.dir/Rozwiazanie3p.cpp.s
+.PHONY : Rozwiazanie3p.cpp.s
+
 Zadanie.o: Zadanie.cpp.o
 .PHONY : Zadanie.o
 
@@ -240,6 +264,9 @@ help:
 	@echo "... Rozwiazanie2p.o"
 	@echo "... Rozwiazanie2p.i"
 	@echo "... Rozwiazanie2p.s"
+	@echo "... Rozwiazanie3p.o"
+	@echo "... Rozwiazanie3p.i"
+	@echo "... Rozwiazanie3p.s"
 	@echo "... Zadanie.o"
 	@echo "... Zadanie.i"
 	@echo "... Zadanie.s"

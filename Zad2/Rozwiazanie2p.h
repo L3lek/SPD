@@ -8,7 +8,6 @@ class Rozwiazanie2p {
 private:
     std::vector<int> procesor1;
     std::vector<int> procesor2;
-    std::vector<int> procesor3;
     int roznica = INT_MAX;
 
 public:
@@ -31,7 +30,7 @@ public:
 
     void wyswietl_menu();
 
-    void wybierz_metode(Problem &dane);
+    void wybierz_metode(Problem &dane, int zmienna);
 
     void wyswietl(double kryterium);
 

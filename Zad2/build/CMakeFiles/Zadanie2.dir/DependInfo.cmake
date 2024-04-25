@@ -10,6 +10,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/niko/studia/spd/Zad2/Problem.cpp" "CMakeFiles/Zadanie2.dir/Problem.cpp.o" "gcc" "CMakeFiles/Zadanie2.dir/Problem.cpp.o.d"
   "/home/niko/studia/spd/Zad2/Rozwiazanie2p.cpp" "CMakeFiles/Zadanie2.dir/Rozwiazanie2p.cpp.o" "gcc" "CMakeFiles/Zadanie2.dir/Rozwiazanie2p.cpp.o.d"
+  "/home/niko/studia/spd/Zad2/Rozwiazanie3p.cpp" "CMakeFiles/Zadanie2.dir/Rozwiazanie3p.cpp.o" "gcc" "CMakeFiles/Zadanie2.dir/Rozwiazanie3p.cpp.o.d"
   "/home/niko/studia/spd/Zad2/Zadanie.cpp" "CMakeFiles/Zadanie2.dir/Zadanie.cpp.o" "gcc" "CMakeFiles/Zadanie2.dir/Zadanie.cpp.o.d"
   "/home/niko/studia/spd/Zad2/main.cpp" "CMakeFiles/Zadanie2.dir/main.cpp.o" "gcc" "CMakeFiles/Zadanie2.dir/main.cpp.o.d"
   )

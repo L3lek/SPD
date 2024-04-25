@@ -8,8 +8,8 @@ add_executable(Zadanie2 main.cpp
         Zadanie.h
         Rozwiazanie2p.cpp
         Rozwiazanie2p.h
-        Rozwiazanie2p.h
         Problem.cpp
         Problem.h
-        Problem.h
+        Rozwiazanie3p.cpp
+        Rozwiazanie3p.h
 )

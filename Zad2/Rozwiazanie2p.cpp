@@ -25,18 +25,11 @@ void Rozwiazanie2p::wyswietl(double kryterium) {
     for (int i = 0; i < Rozwiazanie2p::procesor2.size(); ++i) {
         std::cout<<Rozwiazanie2p::procesor2[i]<<" ";
     }
-    std::cout<<"\nPosortowane rozwiazanie procesor 3: ";
-    for (int i = 0; i < Rozwiazanie2p::procesor3.size(); ++i) {
-        std::cout<<Rozwiazanie2p::procesor3[i]<<" ";
-    }
 
     std::cout<<std::endl<<"Wyliczone kryterium: "<<kryterium<<std::endl;
 }
 
-void Rozwiazanie2p::wybierz_metode(Problem &dane) {
-    std::cout<<"wybierz metode    ";
-    int zmienna=100;
-    std::cin>>zmienna;
+void Rozwiazanie2p::wybierz_metode(Problem &dane, int zmienna) {
     switch (zmienna) {
         case 1: {
             this->LSA(dane);
@@ -68,11 +61,6 @@ void Rozwiazanie2p::wybierz_metode(Problem &dane) {
             this->wyswietl(this->licz_kryterium(dane));
             break;
         }
-        case 7:{
-            this->przeglad_zupelny3p(dane);
-            this->wyswietl(this->licz_kryterium(dane));
-            break;
-        }
 
         default:
             std::cout << "bledna opcja";
@@ -82,7 +70,6 @@ void Rozwiazanie2p::wybierz_metode(Problem &dane) {
 
 double Rozwiazanie2p::licz_kryterium(Problem &dane) {
     double kryterium = std::max(dane.licz_cj((procesor1)),dane.licz_cj((procesor2)));
-    kryterium=std::max(kryterium,dane.licz_cj((procesor3)));
     return kryterium;
 }
 
@@ -108,12 +95,12 @@ void Rozwiazanie2p::LSA(Problem &dane) {
 
 void Rozwiazanie2p::generujBinarnie(Problem &dane, std::vector<int>& bity, int index) {
     std::vector<int> proc1, proc2;
-    double C1=0, C2=0;
+    double C1 = 0, C2 = 0;
     double tmp;
 
     if (index == dane.getN()) {
         for (int i = 0; i < dane.getN(); ++i) {
-            if(bity[i]==1){
+            if (bity[i] == 1) {
                 proc1.push_back(dane.getDane()[i].getNum());
                 C1 += dane.getDane()[i].getPj();
             } else {
@@ -139,7 +126,7 @@ void Rozwiazanie2p::generujBinarnie(Problem &dane, std::vector<int>& bity, int i
 
 void Rozwiazanie2p::przeglad_zupelny(Problem &dane) {
     std::vector<int> bity(dane.getN());
-    generujBinarnie(dane, bity, 0);
+    generujBinarnie(dane, bity, 1);
 }
 
 void Rozwiazanie2p::programowanie_dynamiczne(Problem &dane) {
@@ -207,6 +194,9 @@ void Rozwiazanie2p::PTAS(Problem &dane, double epsilon) {
     }
 
     double Kl = C*epsilon/dane.getN();
+    if(Kl>26){
+        Kl=26;
+    }
 
     std::vector<Zadanie> reduced_tasks;
     std::vector<Zadanie> remaining_tasks;
@@ -237,47 +227,4 @@ void Rozwiazanie2p::FPTAS(Problem &dane, int epsilon) {
     zmienione.setN(dane.getN());
     zmienione=dane.nowe_dane(epsilon);
     this->programowanie_dynamiczne(zmienione);
-}
-
-void Rozwiazanie2p::generujTrojkowo(Problem &dane, std::vector<int>& bity, int index) {
-    std::vector<int> proc1, proc2, proc3;
-    double C1=0, C2=0, C3=0;
-    double tmp, tmp2, tmp3;
-
-    if (index == dane.getN()) {
-        for (int i = 0; i < dane.getN(); ++i) {
-            if(bity[i]==0){
-                proc1.push_back(dane.getDane()[i].getNum());
-                C1 += dane.getDane()[i].getPj();
-            } else if(bity[i]==1) {
-                proc2.push_back(dane.getDane()[i].getNum());
-                C2 += dane.getDane()[i].getPj();
-            }else{
-                proc3.push_back(dane.getDane()[i].getNum());
-                C3 += dane.getDane()[i].getPj();
-            }
-        }
-
-        tmp = std::abs(C2 - C1);
-        tmp2 = std::abs(C3 - C1);
-        tmp3 = std::abs(C3 - C2);
-
-        if (tmp < roznica && tmp2 < roznica && tmp3 < roznica) {
-            procesor1 = proc1;
-            procesor2 = proc2;
-            procesor3 = proc3;
-            roznica = std::max({tmp, tmp2, tmp3});
-        }
-        return;
-    }
-
-    for (int i = 0; i <= 2; ++i) {
-        bity[index] = i;
-        generujTrojkowo(dane, bity, index + 1);
-    }
-}
-
-void Rozwiazanie2p::przeglad_zupelny3p(Problem &dane) {
-    std::vector<int> bity(dane.getN());
-    generujTrojkowo(dane, bity, 0);
 }

@@ -3,6 +3,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/Zadanie2.dir/Problem.cpp.o.d"
   "CMakeFiles/Zadanie2.dir/Rozwiazanie2p.cpp.o"
   "CMakeFiles/Zadanie2.dir/Rozwiazanie2p.cpp.o.d"
+  "CMakeFiles/Zadanie2.dir/Rozwiazanie3p.cpp.o"
+  "CMakeFiles/Zadanie2.dir/Rozwiazanie3p.cpp.o.d"
   "CMakeFiles/Zadanie2.dir/Zadanie.cpp.o"
   "CMakeFiles/Zadanie2.dir/Zadanie.cpp.o.d"
   "CMakeFiles/Zadanie2.dir/main.cpp.o"
