@@ -2,6 +2,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <chrono>
 
 void Rozwiazanie3p::generujTrojkowo(Problem &dane, std::vector<int>& bity, int index) {
     std::vector<int> proc1, proc2, proc3;
@@ -47,39 +48,69 @@ void Rozwiazanie3p::przeglad_zupelny3p(Problem &dane) {
 }
 
 void Rozwiazanie3p::wyswietl(Problem &dane) {
-    std::cout<<"\nRozwiazanie procesor 1: ";
-    for (int i = 0; i < Rozwiazanie3p::procesor1.size(); ++i) {
-        std::cout<<Rozwiazanie3p::procesor1[i]<<" ";
-    }
+    // std::cout<<"\nRozwiazanie procesor 1: ";
+    // for (int i = 0; i < Rozwiazanie3p::procesor1.size(); ++i) {
+    //     std::cout<<Rozwiazanie3p::procesor1[i]<<" ";
+    // }
     std::cout<<std::endl<<"Czas P1: "<<dane.licz_cj((procesor1))<<std::endl;
 
-    std::cout<<"\nRozwiazanie procesor 2: ";
-    for (int i = 0; i < Rozwiazanie3p::procesor2.size(); ++i) {
-        std::cout<<Rozwiazanie3p::procesor2[i]<<" ";
-    }
+    // std::cout<<"\nRozwiazanie procesor 2: ";
+    // for (int i = 0; i < Rozwiazanie3p::procesor2.size(); ++i) {
+    //     std::cout<<Rozwiazanie3p::procesor2[i]<<" ";
+    // }
     std::cout<<std::endl<<"Czas P2: "<<dane.licz_cj((procesor2))<<std::endl;
 
-    std::cout<<"\nRozwiazanie procesor 3: ";
-    for (int i = 0; i < Rozwiazanie3p::procesor3.size(); ++i) {
-        std::cout<<Rozwiazanie3p::procesor3[i]<<" ";
-    }
+    // std::cout<<"\nRozwiazanie procesor 3: ";
+    // for (int i = 0; i < Rozwiazanie3p::procesor3.size(); ++i) {
+    //     std::cout<<Rozwiazanie3p::procesor3[i]<<" ";
+    // }
     std::cout<<std::endl<<"Czas P3: "<<dane.licz_cj((procesor3))<<std::endl;
 }
 
 void Rozwiazanie3p::wybierz_metode(Problem &dane, int zmienna) {
     switch (zmienna) {
         case 7:{
+            auto start = std::chrono::high_resolution_clock::now();
             this->przeglad_zupelny3p(dane);
             this->wyswietl(dane);
+            auto end = std::chrono::high_resolution_clock::now();
+            auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+            std::cout << "Czas wykonania: " << duration << " ms" << std::endl;
             break;
         }case 8:{
-            this->PTAS(dane,0.8);
+            auto start = std::chrono::high_resolution_clock::now();
+            this->PTAS(dane,0.66);
             this->wyswietl(dane);
+            auto end = std::chrono::high_resolution_clock::now();
+            auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+            std::cout << "Czas wykonania: " << duration << " ms" << std::endl;
             break;
         }
         case 9:{
-            this->programowanie_dynamiczne(dane);
+            auto start = std::chrono::high_resolution_clock::now();
+            this->programowanie_dynamiczne3p(dane);
             this->wyswietl(dane);
+            auto end = std::chrono::high_resolution_clock::now();
+            auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+            std::cout << "Czas wykonania: " << duration << " ms" << std::endl;
+            break;
+        }
+        case 10:{
+            auto start = std::chrono::high_resolution_clock::now();
+            this->LSA(dane);
+            this->wyswietl(dane);
+            auto end = std::chrono::high_resolution_clock::now();
+            auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+            std::cout << "Czas wykonania: " << duration << " ms" << std::endl;
+            break;
+        }
+        case 11:{
+            auto start = std::chrono::high_resolution_clock::now();
+            this->LPT(dane);
+            this->wyswietl(dane);
+            auto end = std::chrono::high_resolution_clock::now();
+            auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+            std::cout << "Czas wykonania: " << duration << " ms" << std::endl;
             break;
         }
         default:
@@ -111,27 +142,26 @@ void Rozwiazanie3p::LSA(Problem &dane) {
     }
 }
 
-void Rozwiazanie3p::PTAS(Problem &dane, double epsilon) {
-    double C = 0;
-    for (int i = 0; i < dane.getN(); i++) {
-        C += dane.getDane()[i].getPj();
-    }
+void Rozwiazanie3p::LPT(Problem &dane) {
+    dane.sort();
+    LSA(dane);
+}
 
-    double Kl = C*epsilon/dane.getN();
-    if(Kl>26){
-        Kl=26;
-    }
+void Rozwiazanie3p::PTAS(Problem &dane, double epsilon) {
+    dane.sort();
+
+    double K = dane.getN()*epsilon;
 
     std::vector<Zadanie> reduced_tasks;
     std::vector<Zadanie> remaining_tasks;
 
-    for (int i = 0; i < dane.getN(); ++i) {
-        if (dane.getDane()[i].getPj() <= Kl) {
-            reduced_tasks.push_back(dane.getDane()[i]);
-        } else {
-            remaining_tasks.push_back(dane.getDane()[i]);
-        }
+    for (int i = 0; i < K; ++i) {
+        reduced_tasks.push_back(dane.getDane()[i]);
     }
+    for (int i = K; i < dane.getN(); ++i) {
+        remaining_tasks.push_back(dane.getDane()[i]);
+    }
+
     Problem reduced;
     reduced.setDane(reduced_tasks);
     reduced.setN(reduced_tasks.size());
@@ -145,61 +175,124 @@ void Rozwiazanie3p::PTAS(Problem &dane, double epsilon) {
     this->LSA(remaining);
 }
 
-void Rozwiazanie3p::programowanie_dynamiczne(Problem &dane) {
+void Rozwiazanie3p::programowanie_dynamiczne3p(Problem &dane) {
     double C = 0;
     for (int i = 0; i < dane.getN(); i++) {
         C += dane.getDane()[i].getPj();
     }
     int n = dane.getN();
-    int Kl = (C / 3) + 1; 
+    int Kl = (C /3) + 1;
+    std::cout<<"C "<<C<<" KL "<<Kl<< std::endl;
 
-    // Trójwymiarowa tablica T
-    std::vector<std::vector<std::vector<int>>> T(n + 1, std::vector<std::vector<int>>(Kl, std::vector<int>(Kl, 0)));
 
-    // Inicjalizacja pierwszej kolumny wszystkich wierszy i głębokości
-    for (int i = 0; i <= n; ++i) {
-        for (int j = 0; j < Kl; ++j) {
-            for (int k = 0; k < Kl; ++k) {
-                T[i][j][k] = 1;
-            }
-        }
-    }
-    
+    std::vector<std::vector<int>> T(n + 1, std::vector<int>(Kl, 0));
+
     for (int i = 0; i < n; ++i) {
+        T[i][0] = 1;
+    }
+
+    for (int i = 0; i < n; i++) {
         Zadanie tmp = dane.getDane()[i];
-        for (int j = 0; j < Kl; ++j) {
-            for (int k = 0; k < Kl; ++k) {
-                if (T[i][j][k] == 1) {
-                    if ((k + tmp.getPj()) < Kl) {
-                        T[i + 1][j][k + tmp.getPj()] = 1;
+        for (int k = 0; k < Kl; k++) {
+            if (T[i][k] == 1) {
+                if (T[i][tmp.getPj() + k] == 0) {
+                    for (int j = i + 1; j <= n; j++) {
+                        if((tmp.getPj() + k)<Kl){
+                            T[j][tmp.getPj() + k] = 1;
+                        }
                     }
                 }
             }
         }
-    }
-
-    // Rozdzielanie zadań na procesory
-    int koniec = 1;
-    for (int i = 0; i < n; ++i) {
-        if (T[i][Kl - 1][Kl - koniec] == 1) {
-            procesor1.push_back(i);
-            koniec += dane.getDane()[i].getPj();
+        if (T[i+1][Kl - 1] == 1) {
+            break;
         }
     }
 
-    koniec = 1;
-    for (int i = 0; i < n; ++i) {
-        if (T[i][Kl - 1][Kl - koniec] == 1 && std::find(procesor1.begin(), procesor1.end(), i) == procesor1.end()) {
-            procesor2.push_back(i);
-            koniec += dane.getDane()[i].getPj();
+    int  koniec=1, znalenzione=0;
+    while(Kl!=koniec){
+        for(int i=0; i<n;++i){
+            if(T[i][Kl -koniec] == 1){
+                procesor1.push_back(i);
+                koniec+=dane.getDane()[i-1].getPj();
+                znalenzione=1;
+                break;
+            }
+        }
+        if(znalenzione==0){
+            koniec++;
+        }else{
+            znalenzione=0;
+        }
+    }
+    std::vector<Zadanie> nowe_dane;
+    Problem Nowe_dane;
+    for(int i=1;i<=n;i++){
+        if(std::find(procesor1.begin(), procesor1.end(), i) == procesor1.end()){
+            Zadanie tmp;
+            tmp.setPj(dane.getDane()[i-1].getPj());
+            tmp.setNum(i);
+            nowe_dane.push_back(tmp);
+        }
+    }
+    Nowe_dane.setDane(nowe_dane);
+    Nowe_dane.setN(nowe_dane.size());
+
+
+    std::vector<std::vector<int>> T2(nowe_dane.size() + 1, std::vector<int>(Kl, 0));
+
+    for (int i = 0; i < nowe_dane.size()+1; ++i) {
+        T2[i][0] = 1;
+    }
+
+    for (int i = 0; i < nowe_dane.size(); i++) {
+        Zadanie tmp = Nowe_dane.getDane()[i];
+        for (int k = 0; k < Kl; k++) {
+            if (T2[i][k] == 1) {
+                if (T2[i][tmp.getPj() + k] == 0) {
+                    for (int j = i + 1; j <= nowe_dane.size(); j++) {
+                        if((tmp.getPj() + k)<Kl){
+                            T2[j][tmp.getPj() + k] = 1;
+                        }
+                    }
+                }
+            }
+        }
+        if (T2[i+1][Kl-1] == 1) {
+            break;
         }
     }
 
-    // Reszta zadań dla trzeciego procesora
-    for (int i = 0; i < n; ++i) {
-        if (std::find(procesor1.begin(), procesor1.end(), i) == procesor1.end() &&
-            std::find(procesor2.begin(), procesor2.end(), i) == procesor2.end()) {
+    int koniec2 = 1;
+    while (Kl != koniec2) {
+        int znaleziono2 = 0;
+        for (int j = 0; j < nowe_dane.size(); ++j) {
+            if (T2[j][Kl - koniec2] == 1) {
+                procesor2.push_back(Nowe_dane.getDane()[j-1].getNum());
+                koniec2 += Nowe_dane.getDane()[j-1].getPj();
+                znaleziono2 = 1;
+                break;
+            }
+        }
+        if (znaleziono2 == 0) {
+            koniec2++;
+        }
+    }
+
+    for(int i = 1; i <= n; i++) {
+        if(std::find(procesor1.begin(), procesor1.end(), i) == procesor1.end() &&
+           std::find(procesor2.begin(), procesor2.end(), i) == procesor2.end()) {
             procesor3.push_back(i);
         }
+    }
+
+}
+
+void Rozwiazanie3p::displayArray(const std::vector<std::vector<int>>& T) {
+    for (const auto& row : T) {
+        for (int val : row) {
+            std::cout << val << " ";
+        }
+        std::cout << std::endl;
     }
 }

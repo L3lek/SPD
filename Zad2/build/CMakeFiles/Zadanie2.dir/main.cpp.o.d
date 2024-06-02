@@ -160,4 +160,6 @@ CMakeFiles/Zadanie2.dir/main.cpp.o: /home/niko/studia/spd/Zad2/main.cpp \
  /usr/include/x86_64-linux-gnu/bits/posix2_lim.h \
  /usr/include/x86_64-linux-gnu/bits/xopen_lim.h \
  /usr/include/x86_64-linux-gnu/bits/uio_lim.h \
- /home/niko/studia/spd/Zad2/Rozwiazanie3p.h
+ /home/niko/studia/spd/Zad2/Rozwiazanie3p.h /usr/include/c++/11/chrono \
+ /usr/include/c++/11/ratio /usr/include/c++/11/limits \
+ /usr/include/c++/11/ctime /usr/include/c++/11/bits/parse_numbers.h

@@ -1,0 +1,9 @@
+dane1 - 90
+dane2 - 359
+dane3 - 696
+dane4 - 269
+dane5 - 923
+dane6 - 1952
+dane7 - 519
+dane8 - 1637
+dane9 - 3633

@@ -3,16 +3,17 @@
 #include "Problem.h"
 #include "Rozwiazanie2p.h"
 #include "Rozwiazanie3p.h"
+#include <chrono>
 
 
 int main(){
     int zmienna;
 //    Zadanie zadanie;
-//    int liczba_danych = 6;
-//    std::string nazwa_pliku = "dane.txt";
+//    int liczba_danych = 12;
+//    std::string nazwa_pliku = "dane10.txt";
 //    zadanie.zapisz_do_pliku(liczba_danych, nazwa_pliku);
     Problem test;
-    std::string nazwaPliku = "dane1.txt";
+    std::string nazwaPliku = "dane4.txt";
     test.wczytaj_dane(nazwaPliku);
     Rozwiazanie2p wynik;
     Rozwiazanie3p wynik3;

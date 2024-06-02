@@ -2,6 +2,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <chrono>
 
 void Rozwiazanie2p::wyswietl_menu() {
     std::cout<<"Dostepne metody: "<<std::endl;
@@ -14,17 +15,19 @@ void Rozwiazanie2p::wyswietl_menu() {
     std::cout<<"7 - Przeglad zupelny dla trzech procesorow "<<std::endl;
     std::cout<<"8 - PTAS dla trzech procesorow "<<std::endl;
     std::cout<<"9 - PD dla trzech procesorow "<<std::endl;
+    std::cout<<"10 - LSA dla trzech procesorow "<<std::endl;
+    std::cout<<"11 - LPT dla trzech procesorow "<<std::endl;
 }
 
 void Rozwiazanie2p::wyswietl(double kryterium) {
-    std::cout<<"\nPosortowane rozwiazanie procesor 1: ";
-    for (int i = 0; i < Rozwiazanie2p::procesor1.size(); ++i) {
-        std::cout<<Rozwiazanie2p::procesor1[i]<<" ";
-    }
-    std::cout<<"\nPosortowane rozwiazanie procesor 2: ";
-    for (int i = 0; i < Rozwiazanie2p::procesor2.size(); ++i) {
-        std::cout<<Rozwiazanie2p::procesor2[i]<<" ";
-    }
+    // std::cout<<"\nPosortowane rozwiazanie procesor 1: ";
+    // for (int i = 0; i < Rozwiazanie2p::procesor1.size(); ++i) {
+    //     std::cout<<Rozwiazanie2p::procesor1[i]<<" ";
+    // }
+    // std::cout<<"\nPosortowane rozwiazanie procesor 2: ";
+    // for (int i = 0; i < Rozwiazanie2p::procesor2.size(); ++i) {
+    //     std::cout<<Rozwiazanie2p::procesor2[i]<<" ";
+    // }
 
     std::cout<<std::endl<<"Wyliczone kryterium: "<<kryterium<<std::endl;
 }
@@ -32,33 +35,57 @@ void Rozwiazanie2p::wyswietl(double kryterium) {
 void Rozwiazanie2p::wybierz_metode(Problem &dane, int zmienna) {
     switch (zmienna) {
         case 1: {
+            auto start = std::chrono::high_resolution_clock::now();
             this->LSA(dane);
             this->wyswietl(this->licz_kryterium(dane));
-            break;
+            auto end = std::chrono::high_resolution_clock::now();
+            auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+            std::cout << "Czas wykonania: " << duration << " ms" << std::endl;
+            break;  
         }
         case 2: {
+            auto start = std::chrono::high_resolution_clock::now();
             this->LPT(dane);
             this->wyswietl(this->licz_kryterium(dane));
+            auto end = std::chrono::high_resolution_clock::now();
+            auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+            std::cout << "Czas wykonania: " << duration << " ms" << std::endl;
             break;
         }
         case 3:{
+            auto start = std::chrono::high_resolution_clock::now();
             programowanie_dynamiczne(dane);
             this->wyswietl(this->licz_kryterium(dane));
+            auto end = std::chrono::high_resolution_clock::now();
+            auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+            std::cout << "Czas wykonania: " << duration << " ms" << std::endl;
             break;
         }
         case 4:{
+            auto start = std::chrono::high_resolution_clock::now();
             this->przeglad_zupelny(dane);
             this->wyswietl(this->licz_kryterium(dane));
+            auto end = std::chrono::high_resolution_clock::now();
+            auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+            std::cout << "Czas wykonania: " << duration << " ms" << std::endl;
             break;
         }
         case 5:{
-            this->PTAS(dane, 0.8);
+            auto start = std::chrono::high_resolution_clock::now();
+            this->PTAS(dane, 0.5);
             this->wyswietl(this->licz_kryterium(dane));
+            auto end = std::chrono::high_resolution_clock::now();
+            auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+            std::cout << "Czas wykonania: " << duration << " ms" << std::endl;
             break;
         }
         case 6:{
+            auto start = std::chrono::high_resolution_clock::now();
             this->FPTAS(dane, 2);
             this->wyswietl(this->licz_kryterium(dane));
+            auto end = std::chrono::high_resolution_clock::now();
+            auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+            std::cout << "Czas wykonania: " << duration << " ms" << std::endl;
             break;
         }
 
@@ -91,7 +118,6 @@ void Rozwiazanie2p::LSA(Problem &dane) {
         }
     }
 }
-
 
 void Rozwiazanie2p::generujBinarnie(Problem &dane, std::vector<int>& bity, int index) {
     std::vector<int> proc1, proc2;
@@ -188,26 +214,20 @@ void Rozwiazanie2p::programowanie_dynamiczne(Problem &dane) {
 }
 
 void Rozwiazanie2p::PTAS(Problem &dane, double epsilon) {
-    double C = 0;
-    for (int i = 0; i < dane.getN(); i++) {
-        C += dane.getDane()[i].getPj();
-    }
+    dane.sort();
 
-    double Kl = C*epsilon/dane.getN();
-    if(Kl>26){
-        Kl=26;
-    }
+    double K = dane.getN()*epsilon;
 
     std::vector<Zadanie> reduced_tasks;
     std::vector<Zadanie> remaining_tasks;
 
-    for (int i = 0; i < dane.getN(); ++i) {
-        if (dane.getDane()[i].getPj() <= Kl) {
-            reduced_tasks.push_back(dane.getDane()[i]);
-        } else {
-            remaining_tasks.push_back(dane.getDane()[i]);
-        }
+    for (int i = 0; i < K; ++i) {
+        reduced_tasks.push_back(dane.getDane()[i]);
     }
+    for (int i = K; i < dane.getN(); ++i) {
+        remaining_tasks.push_back(dane.getDane()[i]);
+    }
+    
     Problem reduced;
     reduced.setDane(reduced_tasks);
     reduced.setN(reduced_tasks.size());
@@ -219,7 +239,7 @@ void Rozwiazanie2p::PTAS(Problem &dane, double epsilon) {
 
     this->przeglad_zupelny(reduced);
 
-   this->LSA(remaining);
+    this->LSA(remaining);
 }
 
 void Rozwiazanie2p::FPTAS(Problem &dane, int epsilon) {

@@ -2,6 +2,7 @@
 #include <fstream>
 #include <iostream>
 #include <random>
+
 bool Zadanie::compare(Zadanie z1, Zadanie z2) {
     return (z1.pj >= z2.pj);
 }

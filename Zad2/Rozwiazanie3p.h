@@ -42,9 +42,13 @@ public:
 
     void LSA(Problem &dane);
 
+    void LPT(Problem &dane);
+
     void PTAS(Problem &dane, double epsilon);
 
-    void programowanie_dynamiczne(Problem &dane); 
+    void programowanie_dynamiczne3p(Problem &dane);
+
+    void displayArray(const std::vector<std::vector<int>>& T);
 };
 
 
