@@ -1,6 +1,6 @@
 CMakeFiles/Zadanie3.dir/Zadanie.cpp.o: \
- /home/niko/studia/spd/SPD_Zad3/Zadanie.cpp /usr/include/stdc-predef.h \
- /home/niko/studia/spd/SPD_Zad3/Zadanie.h /usr/include/c++/11/string \
+ /home/niko/studia/spd/Zad3/Zadanie.cpp /usr/include/stdc-predef.h \
+ /home/niko/studia/spd/Zad3/Zadanie.h /usr/include/c++/11/string \
  /usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h \
  /usr/include/features.h /usr/include/features-time64.h \

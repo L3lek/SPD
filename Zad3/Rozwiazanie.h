@@ -10,6 +10,19 @@ private:
     double najlepszyCmax; // Najlepsza wartość Cmax
 
 public:
+
+    struct Node {
+    std::vector<int> jobSequence;
+    int level;
+    int lowerBound;
+    int completionTime;
+
+    // Compare two nodes based on their lower bound (for priority queue)
+    bool operator<(const Node& other) const {
+        return lowerBound > other.lowerBound;
+    }
+    };
+
     const std::vector<int> &getNajlepszaKolejka() const {
         return najlepszaKolejka;
     }
@@ -40,6 +53,22 @@ public:
     void przeglad_zupelny(Problem &problem);
 
     void johnson(Problem &problem);
+
+    void FNEH(Problem& problem);
+
+    double lowerBound(Problem &N, Problem &Pi);
+
+    void BranchAndBound(int j, Problem &N, double &ub, Problem &Pi);
+
+    void initBranchAndBound(Problem &problem);
+
+    void symulowaneWyzarzanie(Problem &problem) ;
+
+    void perturbSolution(Problem& problem);
+
+    double thresholdAcceptingCmax(Problem& problem, double initialThreshold, int maxIterations);
+
+    double variableNeighborhoodSearchCmax(Problem& problem, int maxIterations, int neighborhoodSize);
 };
 
 

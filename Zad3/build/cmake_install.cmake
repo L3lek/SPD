@@ -1,4 +1,4 @@
-# Install script for directory: /home/niko/studia/spd/SPD_Zad3
+# Install script for directory: /home/niko/studia/spd/Zad3
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -50,5 +50,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/niko/studia/spd/SPD_Zad3/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/niko/studia/spd/Zad3/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

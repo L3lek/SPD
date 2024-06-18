@@ -8,10 +8,10 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/niko/studia/spd/SPD_Zad3/Problem.cpp" "CMakeFiles/Zadanie3.dir/Problem.cpp.o" "gcc" "CMakeFiles/Zadanie3.dir/Problem.cpp.o.d"
-  "/home/niko/studia/spd/SPD_Zad3/Rozwiazanie.cpp" "CMakeFiles/Zadanie3.dir/Rozwiazanie.cpp.o" "gcc" "CMakeFiles/Zadanie3.dir/Rozwiazanie.cpp.o.d"
-  "/home/niko/studia/spd/SPD_Zad3/Zadanie.cpp" "CMakeFiles/Zadanie3.dir/Zadanie.cpp.o" "gcc" "CMakeFiles/Zadanie3.dir/Zadanie.cpp.o.d"
-  "/home/niko/studia/spd/SPD_Zad3/main.cpp" "CMakeFiles/Zadanie3.dir/main.cpp.o" "gcc" "CMakeFiles/Zadanie3.dir/main.cpp.o.d"
+  "/home/niko/studia/spd/Zad3/Problem.cpp" "CMakeFiles/Zadanie3.dir/Problem.cpp.o" "gcc" "CMakeFiles/Zadanie3.dir/Problem.cpp.o.d"
+  "/home/niko/studia/spd/Zad3/Rozwiazanie.cpp" "CMakeFiles/Zadanie3.dir/Rozwiazanie.cpp.o" "gcc" "CMakeFiles/Zadanie3.dir/Rozwiazanie.cpp.o.d"
+  "/home/niko/studia/spd/Zad3/Zadanie.cpp" "CMakeFiles/Zadanie3.dir/Zadanie.cpp.o" "gcc" "CMakeFiles/Zadanie3.dir/Zadanie.cpp.o.d"
+  "/home/niko/studia/spd/Zad3/main.cpp" "CMakeFiles/Zadanie3.dir/main.cpp.o" "gcc" "CMakeFiles/Zadanie3.dir/main.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

@@ -35,11 +35,16 @@ public:
 
     std::vector<Zadanie> sortujZadaniaWedlugSumyCzasow();
 
+    std::vector<Zadanie> sortujZadaniaWedlugSumyCzasowMalejąco();
+
+    std::vector<Zadanie> sortujZadaniaWedlugSumyCzasowRosnąco();
+
     int rozmiar() const;
 
     void wstawZadanieNaPozycji(const Zadanie &zadanie, int pozycja);
 
     void wstawZadanie(const Zadanie &zadanie);
+
 };
 
 

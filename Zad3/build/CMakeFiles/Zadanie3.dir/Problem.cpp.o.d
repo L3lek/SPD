@@ -1,6 +1,6 @@
 CMakeFiles/Zadanie3.dir/Problem.cpp.o: \
- /home/niko/studia/spd/SPD_Zad3/Problem.cpp /usr/include/stdc-predef.h \
- /home/niko/studia/spd/SPD_Zad3/Problem.h /usr/include/c++/11/vector \
+ /home/niko/studia/spd/Zad3/Problem.cpp /usr/include/stdc-predef.h \
+ /home/niko/studia/spd/Zad3/Problem.h /usr/include/c++/11/vector \
  /usr/include/c++/11/bits/stl_algobase.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h \
@@ -42,9 +42,8 @@ CMakeFiles/Zadanie3.dir/Problem.cpp.o: \
  /usr/include/c++/11/bits/functional_hash.h \
  /usr/include/c++/11/bits/hash_bytes.h \
  /usr/include/c++/11/bits/range_access.h \
- /usr/include/c++/11/bits/vector.tcc \
- /home/niko/studia/spd/SPD_Zad3/Zadanie.h /usr/include/c++/11/string \
- /usr/include/c++/11/bits/stringfwd.h \
+ /usr/include/c++/11/bits/vector.tcc /home/niko/studia/spd/Zad3/Zadanie.h \
+ /usr/include/c++/11/string /usr/include/c++/11/bits/stringfwd.h \
  /usr/include/c++/11/bits/char_traits.h \
  /usr/include/c++/11/bits/postypes.h /usr/include/c++/11/cwchar \
  /usr/include/wchar.h \

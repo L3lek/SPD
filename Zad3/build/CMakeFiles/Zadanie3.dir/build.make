@@ -44,19 +44,19 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /snap/cmake/1384/bin/cmake
+CMAKE_COMMAND = /snap/cmake/1391/bin/cmake
 
 # The command to remove a file.
-RM = /snap/cmake/1384/bin/cmake -E rm -f
+RM = /snap/cmake/1391/bin/cmake -E rm -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/niko/studia/spd/SPD_Zad3
+CMAKE_SOURCE_DIR = /home/niko/studia/spd/Zad3
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/niko/studia/spd/SPD_Zad3/build
+CMAKE_BINARY_DIR = /home/niko/studia/spd/Zad3/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/Zadanie3.dir/depend.make
@@ -70,60 +70,60 @@ include CMakeFiles/Zadanie3.dir/progress.make
 include CMakeFiles/Zadanie3.dir/flags.make
 
 CMakeFiles/Zadanie3.dir/main.cpp.o: CMakeFiles/Zadanie3.dir/flags.make
-CMakeFiles/Zadanie3.dir/main.cpp.o: /home/niko/studia/spd/SPD_Zad3/main.cpp
+CMakeFiles/Zadanie3.dir/main.cpp.o: /home/niko/studia/spd/Zad3/main.cpp
 CMakeFiles/Zadanie3.dir/main.cpp.o: CMakeFiles/Zadanie3.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/niko/studia/spd/SPD_Zad3/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Zadanie3.dir/main.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Zadanie3.dir/main.cpp.o -MF CMakeFiles/Zadanie3.dir/main.cpp.o.d -o CMakeFiles/Zadanie3.dir/main.cpp.o -c /home/niko/studia/spd/SPD_Zad3/main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/niko/studia/spd/Zad3/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Zadanie3.dir/main.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Zadanie3.dir/main.cpp.o -MF CMakeFiles/Zadanie3.dir/main.cpp.o.d -o CMakeFiles/Zadanie3.dir/main.cpp.o -c /home/niko/studia/spd/Zad3/main.cpp
 
 CMakeFiles/Zadanie3.dir/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/Zadanie3.dir/main.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/niko/studia/spd/SPD_Zad3/main.cpp > CMakeFiles/Zadanie3.dir/main.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/niko/studia/spd/Zad3/main.cpp > CMakeFiles/Zadanie3.dir/main.cpp.i
 
 CMakeFiles/Zadanie3.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Zadanie3.dir/main.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/niko/studia/spd/SPD_Zad3/main.cpp -o CMakeFiles/Zadanie3.dir/main.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/niko/studia/spd/Zad3/main.cpp -o CMakeFiles/Zadanie3.dir/main.cpp.s
 
 CMakeFiles/Zadanie3.dir/Zadanie.cpp.o: CMakeFiles/Zadanie3.dir/flags.make
-CMakeFiles/Zadanie3.dir/Zadanie.cpp.o: /home/niko/studia/spd/SPD_Zad3/Zadanie.cpp
+CMakeFiles/Zadanie3.dir/Zadanie.cpp.o: /home/niko/studia/spd/Zad3/Zadanie.cpp
 CMakeFiles/Zadanie3.dir/Zadanie.cpp.o: CMakeFiles/Zadanie3.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/niko/studia/spd/SPD_Zad3/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/Zadanie3.dir/Zadanie.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Zadanie3.dir/Zadanie.cpp.o -MF CMakeFiles/Zadanie3.dir/Zadanie.cpp.o.d -o CMakeFiles/Zadanie3.dir/Zadanie.cpp.o -c /home/niko/studia/spd/SPD_Zad3/Zadanie.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/niko/studia/spd/Zad3/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/Zadanie3.dir/Zadanie.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Zadanie3.dir/Zadanie.cpp.o -MF CMakeFiles/Zadanie3.dir/Zadanie.cpp.o.d -o CMakeFiles/Zadanie3.dir/Zadanie.cpp.o -c /home/niko/studia/spd/Zad3/Zadanie.cpp
 
 CMakeFiles/Zadanie3.dir/Zadanie.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/Zadanie3.dir/Zadanie.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/niko/studia/spd/SPD_Zad3/Zadanie.cpp > CMakeFiles/Zadanie3.dir/Zadanie.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/niko/studia/spd/Zad3/Zadanie.cpp > CMakeFiles/Zadanie3.dir/Zadanie.cpp.i
 
 CMakeFiles/Zadanie3.dir/Zadanie.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Zadanie3.dir/Zadanie.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/niko/studia/spd/SPD_Zad3/Zadanie.cpp -o CMakeFiles/Zadanie3.dir/Zadanie.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/niko/studia/spd/Zad3/Zadanie.cpp -o CMakeFiles/Zadanie3.dir/Zadanie.cpp.s
 
 CMakeFiles/Zadanie3.dir/Rozwiazanie.cpp.o: CMakeFiles/Zadanie3.dir/flags.make
-CMakeFiles/Zadanie3.dir/Rozwiazanie.cpp.o: /home/niko/studia/spd/SPD_Zad3/Rozwiazanie.cpp
+CMakeFiles/Zadanie3.dir/Rozwiazanie.cpp.o: /home/niko/studia/spd/Zad3/Rozwiazanie.cpp
 CMakeFiles/Zadanie3.dir/Rozwiazanie.cpp.o: CMakeFiles/Zadanie3.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/niko/studia/spd/SPD_Zad3/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/Zadanie3.dir/Rozwiazanie.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Zadanie3.dir/Rozwiazanie.cpp.o -MF CMakeFiles/Zadanie3.dir/Rozwiazanie.cpp.o.d -o CMakeFiles/Zadanie3.dir/Rozwiazanie.cpp.o -c /home/niko/studia/spd/SPD_Zad3/Rozwiazanie.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/niko/studia/spd/Zad3/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/Zadanie3.dir/Rozwiazanie.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Zadanie3.dir/Rozwiazanie.cpp.o -MF CMakeFiles/Zadanie3.dir/Rozwiazanie.cpp.o.d -o CMakeFiles/Zadanie3.dir/Rozwiazanie.cpp.o -c /home/niko/studia/spd/Zad3/Rozwiazanie.cpp
 
 CMakeFiles/Zadanie3.dir/Rozwiazanie.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/Zadanie3.dir/Rozwiazanie.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/niko/studia/spd/SPD_Zad3/Rozwiazanie.cpp > CMakeFiles/Zadanie3.dir/Rozwiazanie.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/niko/studia/spd/Zad3/Rozwiazanie.cpp > CMakeFiles/Zadanie3.dir/Rozwiazanie.cpp.i
 
 CMakeFiles/Zadanie3.dir/Rozwiazanie.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Zadanie3.dir/Rozwiazanie.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/niko/studia/spd/SPD_Zad3/Rozwiazanie.cpp -o CMakeFiles/Zadanie3.dir/Rozwiazanie.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/niko/studia/spd/Zad3/Rozwiazanie.cpp -o CMakeFiles/Zadanie3.dir/Rozwiazanie.cpp.s
 
 CMakeFiles/Zadanie3.dir/Problem.cpp.o: CMakeFiles/Zadanie3.dir/flags.make
-CMakeFiles/Zadanie3.dir/Problem.cpp.o: /home/niko/studia/spd/SPD_Zad3/Problem.cpp
+CMakeFiles/Zadanie3.dir/Problem.cpp.o: /home/niko/studia/spd/Zad3/Problem.cpp
 CMakeFiles/Zadanie3.dir/Problem.cpp.o: CMakeFiles/Zadanie3.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/niko/studia/spd/SPD_Zad3/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/Zadanie3.dir/Problem.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Zadanie3.dir/Problem.cpp.o -MF CMakeFiles/Zadanie3.dir/Problem.cpp.o.d -o CMakeFiles/Zadanie3.dir/Problem.cpp.o -c /home/niko/studia/spd/SPD_Zad3/Problem.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/niko/studia/spd/Zad3/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/Zadanie3.dir/Problem.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Zadanie3.dir/Problem.cpp.o -MF CMakeFiles/Zadanie3.dir/Problem.cpp.o.d -o CMakeFiles/Zadanie3.dir/Problem.cpp.o -c /home/niko/studia/spd/Zad3/Problem.cpp
 
 CMakeFiles/Zadanie3.dir/Problem.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/Zadanie3.dir/Problem.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/niko/studia/spd/SPD_Zad3/Problem.cpp > CMakeFiles/Zadanie3.dir/Problem.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/niko/studia/spd/Zad3/Problem.cpp > CMakeFiles/Zadanie3.dir/Problem.cpp.i
 
 CMakeFiles/Zadanie3.dir/Problem.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Zadanie3.dir/Problem.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/niko/studia/spd/SPD_Zad3/Problem.cpp -o CMakeFiles/Zadanie3.dir/Problem.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/niko/studia/spd/Zad3/Problem.cpp -o CMakeFiles/Zadanie3.dir/Problem.cpp.s
 
 # Object files for target Zadanie3
 Zadanie3_OBJECTS = \
@@ -141,7 +141,7 @@ Zadanie3: CMakeFiles/Zadanie3.dir/Rozwiazanie.cpp.o
 Zadanie3: CMakeFiles/Zadanie3.dir/Problem.cpp.o
 Zadanie3: CMakeFiles/Zadanie3.dir/build.make
 Zadanie3: CMakeFiles/Zadanie3.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/niko/studia/spd/SPD_Zad3/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable Zadanie3"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/niko/studia/spd/Zad3/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable Zadanie3"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/Zadanie3.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -153,6 +153,6 @@ CMakeFiles/Zadanie3.dir/clean:
 .PHONY : CMakeFiles/Zadanie3.dir/clean
 
 CMakeFiles/Zadanie3.dir/depend:
-	cd /home/niko/studia/spd/SPD_Zad3/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/niko/studia/spd/SPD_Zad3 /home/niko/studia/spd/SPD_Zad3 /home/niko/studia/spd/SPD_Zad3/build /home/niko/studia/spd/SPD_Zad3/build /home/niko/studia/spd/SPD_Zad3/build/CMakeFiles/Zadanie3.dir/DependInfo.cmake "--color=$(COLOR)"
+	cd /home/niko/studia/spd/Zad3/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/niko/studia/spd/Zad3 /home/niko/studia/spd/Zad3 /home/niko/studia/spd/Zad3/build /home/niko/studia/spd/Zad3/build /home/niko/studia/spd/Zad3/build/CMakeFiles/Zadanie3.dir/DependInfo.cmake "--color=$(COLOR)"
 .PHONY : CMakeFiles/Zadanie3.dir/depend
 

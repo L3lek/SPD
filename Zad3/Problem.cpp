@@ -5,7 +5,6 @@
 #include <bits/stdc++.h>
 #include <algorithm>
 
-
 Problem::Problem(int n, int m, const std::vector<Zadanie> &dane){
     Problem::n=n;
     Problem::m=m;
@@ -87,6 +86,22 @@ std::vector<Zadanie> Problem::sortujZadaniaWedlugSumyCzasow(){
     return posortowane;
 }
 
+std::vector<Zadanie> Problem::sortujZadaniaWedlugSumyCzasowMalejąco(){
+    std::vector<Zadanie> posortowane(dane.begin(), dane.end());
+    std::sort(posortowane.begin(), posortowane.end(), [](const Zadanie& a, const Zadanie& b) {
+        return a.pobierzSumeCzasow() > b.pobierzSumeCzasow();
+    });
+    return posortowane;
+}
+
+std::vector<Zadanie> Problem::sortujZadaniaWedlugSumyCzasowRosnąco(){
+    std::vector<Zadanie> posortowane(dane.begin(), dane.end());
+    std::sort(posortowane.begin(), posortowane.end(), [](const Zadanie& a, const Zadanie& b) {
+        return a.pobierzSumeCzasow() < b.pobierzSumeCzasow();
+    });
+    return posortowane;
+}
+
 void Problem::wstawZadanie(const Zadanie& zadanie) {
     dane.push_back(zadanie);
 }
@@ -98,4 +113,3 @@ void Problem::wstawZadanieNaPozycji(const Zadanie& zadanie, int pozycja) {
 int Problem::rozmiar() const {
     return dane.size();
 }
-
