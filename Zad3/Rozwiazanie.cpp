@@ -17,6 +17,7 @@ void Rozwiazanie::wyswietl_menu() {
     std::cout<<"6 - Symulowane wyżarzanie"<<std::endl;
     std::cout<<"7 - Algorytm akceptacji progu"<<std::endl;
     std::cout<<"8 - Przeszukiwanie ze zmiennym sąsiedztwem"<<std::endl;
+    std::cout<<"9 - Tabu Search"<<std::endl;
 }
 
 double Rozwiazanie::obliczCmax(Problem& problem){
@@ -92,16 +93,16 @@ void Rozwiazanie::wybierz_metode(Problem &dane) {
             std::cout << "Czas wykonania algorytmu Johnsona: " << duration << " ms\n";
             break;
         }
-        //        case 4: {
-//            auto start = std::chrono::high_resolution_clock::now();
-//            this->FNEH(dane);
-//            this->wyswietl();
-//            // this->wyswietl_kolejnosc();
-//            auto end = std::chrono::high_resolution_clock::now();
-//            auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
-//            std::cout << "Czas wykonania metody NEH: " << duration << " ms\n";
-//            break;
-//        }
+    //    case 4: {
+    //        auto start = std::chrono::high_resolution_clock::now();
+    //        this->FNEH(dane);
+    //        this->wyswietl();
+    //        // this->wyswietl_kolejnosc();
+    //        auto end = std::chrono::high_resolution_clock::now();
+    //        auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+    //        std::cout << "Czas wykonania metody QNEH: " << duration << " ms\n";
+    //        break;
+    //    }
         case 5: {
             auto start = std::chrono::high_resolution_clock::now();
             this->initBranchAndBound(dane);
@@ -124,22 +125,32 @@ void Rozwiazanie::wybierz_metode(Problem &dane) {
         }
         case 7: {
             auto start = std::chrono::high_resolution_clock::now();
-            this->thresholdAcceptingCmax(dane, 10, 5000);
+            thresholdAccepting(dane);
             this->wyswietl();
             //this->wyswietl_kolejnosc();
             auto end = std::chrono::high_resolution_clock::now();
             auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
-            std::cout << "Czas wykonania symulowanego wyżarzania: " << duration << " ms\n";
+            std::cout << "Czas wykonania progu akceptacji: " << duration << " ms\n";
             break;
         }
         case 8: {
             auto start = std::chrono::high_resolution_clock::now();
-            najlepszyCmax = variableNeighborhoodSearchCmax(dane, 10000, 3);
+            variableNeighborhoodSearch(dane);
             this->wyswietl();
             //this->wyswietl_kolejnosc();
             auto end = std::chrono::high_resolution_clock::now();
             auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
-            std::cout << "Czas wykonania symulowanego wyżarzania: " << duration << " ms\n";
+            std::cout << "Czas wykonania przeszukania ze zmiennym  sąsiedztwem: " << duration << " ms\n";
+            break;
+        }
+        case 9: {
+            auto start = std::chrono::high_resolution_clock::now();
+            tabuSearch(dane);
+            this->wyswietl();
+            //this->wyswietl_kolejnosc();
+            auto end = std::chrono::high_resolution_clock::now();
+            auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+            std::cout << "Czas wykonania przeszukania ze zmiennym  sąsiedztwem: " << duration << " ms\n";
             break;
         }
         
@@ -149,7 +160,7 @@ void Rozwiazanie::wybierz_metode(Problem &dane) {
     }
 }
 
-void Rozwiazanie::NEH(Problem& problem) {
+Problem Rozwiazanie::NEH(Problem& problem) {
     std::vector<Zadanie> sortedDane = problem.sortujZadaniaWedlugSumyCzasowMalejąco();
     Problem partialProblem(0, problem.getM());
 
@@ -177,6 +188,7 @@ void Rozwiazanie::NEH(Problem& problem) {
     for (std::vector<Zadanie>::const_iterator it = partialProblem.getDane().begin(); it != partialProblem.getDane().end(); ++it) {
         najlepszaKolejka.push_back(it->getNum());
     }
+    return partialProblem;
 }
 
 void Rozwiazanie::przeglad_zupelny(Problem &problem) {
@@ -197,6 +209,7 @@ void Rozwiazanie::przeglad_zupelny(Problem &problem) {
         temp_problem.setDane(noweDane);
 
         double wylicz_czas = this->obliczCmax(temp_problem);
+        std::cout<<wylicz_czas<<std::endl;
         if (wylicz_czas < czas) {
             czas = wylicz_czas;
             this->najlepszyCmax = wylicz_czas;
@@ -339,170 +352,314 @@ void Rozwiazanie::initBranchAndBound(Problem &N) {
 }
 
 void Rozwiazanie::symulowaneWyzarzanie(Problem &problem) {
-    // Parametry algorytmu
-    double temperaturaPoczatkowa = 10000;
-    double temperaturaKoncowa = 1;
-    double wspolczynnikChlodzenia = 0.999;
+    double temperaturaPoczatkowa = 100000;
+    double temperaturaKoncowa = 0.0001;
+    double wspolczynnikChlodzenia = 0.9999;
 
-    // Zainicjuj losowy generator
     std::srand(std::time(nullptr));
 
-    // Zainicjuj rozwiązanie początkowe
-    std::vector<int> obecnaKolejka(problem.getDane().size());
+    Problem pocz_prob = NEH(problem);
+
+    // for(int i=0;i<problem.getDane().size();i++){
+    //      std::cout<<problem.getDane()[i].getNum()<<" ";
+    // }
+    // std::cout<<std::endl;
+
+    std::vector<int> obecnaKolejka(pocz_prob.getDane().size());
     for (int i = 0; i < problem.getDane().size(); ++i) {
-        obecnaKolejka[i] = problem.getDane()[i].getNum();
+        obecnaKolejka[i] = pocz_prob.getDane()[i].getNum();
     }
 
+
     setNajlepszaKolejka(obecnaKolejka);
-    double obecnyCmax = obliczCmax(problem);
+    double obecnyCmax = obliczCmax(pocz_prob);
+
     najlepszaKolejka = obecnaKolejka;
     najlepszyCmax = obecnyCmax;
 
     double temperatura = temperaturaPoczatkowa;
 
     while (temperatura > temperaturaKoncowa) {
-        // Wygeneruj nowe rozwiązanie przez zamianę dwóch losowych zadań
         std::vector<int> nowaKolejka = obecnaKolejka;
         int i = std::rand() % nowaKolejka.size();
         int j = std::rand() % nowaKolejka.size();
         std::swap(nowaKolejka[i], nowaKolejka[j]);
 
-        // Oblicz wartość Cmax dla nowego rozwiązania
-        setNajlepszaKolejka(nowaKolejka);
-        double nowyCmax = obliczCmax(problem);
+        Problem pom_problem=pocz_prob;
+         std::vector<Zadanie> tmp;
+        for(int i=0;i<nowaKolejka.size();i++){
+            for(int j=0;j<problem.getDane().size();j++){
+                if (nowaKolejka[i]==problem.getDane()[j].getNum()){
+                    tmp.push_back(problem.getDane()[j]);
+                }   
+            }
+        }
 
-        // Akceptuj nowe rozwiązanie na podstawie prawdopodobieństwa
+        pom_problem.setDane(tmp);
+        double nowyCmax = obliczCmax(pom_problem);
+        // std::cout<<nowyCmax<<" - "<< obecnyCmax<<std::endl;
         if (nowyCmax < obecnyCmax || std::exp((obecnyCmax - nowyCmax) / temperatura) > ((double) std::rand() / RAND_MAX)) {
             obecnaKolejka = nowaKolejka;
             obecnyCmax = nowyCmax;
 
-            // Aktualizuj najlepsze rozwiązanie, jeśli jest lepsze
             if (nowyCmax < najlepszyCmax) {
                 najlepszaKolejka = nowaKolejka;
                 najlepszyCmax = nowyCmax;
             }
         }
 
-        // Obniż temperaturę
         temperatura *= wspolczynnikChlodzenia;
     }
 
-    // Ustaw najlepsze znalezione rozwiązanie
     setNajlepszaKolejka(najlepszaKolejka);
     setNajlepszyCmax(najlepszyCmax);
 }
 
-double Rozwiazanie::thresholdAcceptingCmax(Problem& problem, double initialThreshold, int maxIterations) {
-    int iloscZadan = problem.getN();
-    int iloscMaszyn = problem.getM();
-    std::vector<Zadanie> zadania = problem.getDane();
+void Rozwiazanie::thresholdAccepting(Problem &problem) {
+    double thresholdPoczatkowy = 1000;
+    double thresholdKoncowy = 0.0001;
+    double wspolczynnikZmniejszania = 0.9999;
+    int maxIterations = 1000000;
 
+    std::srand(std::time(nullptr));
 
-    this->najlepszaKolejka.clear();
-    najlepszyCmax = std::numeric_limits<double>::max();  // Initialize najlepszyCmax to a large value
+    Problem pocz_prob = NEH(problem);
 
-    // Start with initial solution
-    double currentCmax = obliczCmax(problem);
+    std::vector<int> obecnaKolejka(pocz_prob.getDane().size());
+    for (int i = 0; i < problem.getDane().size(); ++i) {
+        obecnaKolejka[i] = pocz_prob.getDane()[i].getNum();
+    }
 
-    // Initialize threshold and iteration counter
-    double threshold = initialThreshold;
+    setNajlepszaKolejka(obecnaKolejka);
+    double obecnyCmax = obliczCmax(pocz_prob);
+
+    najlepszaKolejka = obecnaKolejka;
+    najlepszyCmax = obecnyCmax;
+
+    double threshold = thresholdPoczatkowy;
+
+    for (int iter = 0; iter < maxIterations; ++iter) {
+        std::vector<int> nowaKolejka = obecnaKolejka;
+        int i = std::rand() % nowaKolejka.size();
+        int j = std::rand() % nowaKolejka.size();
+        std::swap(nowaKolejka[i], nowaKolejka[j]);
+
+        Problem pom_problem = pocz_prob;
+        std::vector<Zadanie> tmp;
+        for (int k = 0; k < nowaKolejka.size(); ++k) {
+            for (int l = 0; l < problem.getDane().size(); ++l) {
+                if (nowaKolejka[k] == problem.getDane()[l].getNum()) {
+                    tmp.push_back(problem.getDane()[l]);
+                }
+            }
+        }
+
+        pom_problem.setDane(tmp);
+        double nowyCmax = obliczCmax(pom_problem);
+
+        if (nowyCmax < obecnyCmax || std::abs(nowyCmax - obecnyCmax) <= threshold) {
+            obecnaKolejka = nowaKolejka;
+            obecnyCmax = nowyCmax;
+
+            if (nowyCmax < najlepszyCmax) {
+                najlepszaKolejka = nowaKolejka;
+                najlepszyCmax = nowyCmax;
+            }
+        }
+
+        threshold *= wspolczynnikZmniejszania;
+        if (threshold < thresholdKoncowy) {
+            break;
+        }
+    }
+
+    setNajlepszaKolejka(najlepszaKolejka);
+    setNajlepszyCmax(najlepszyCmax);
+}
+
+std::vector<std::vector<int>> Rozwiazanie::generujSasiedztwo(const std::vector<int> &kolejka, int typSasiedztwa) {
+    std::vector<std::vector<int>> sasiedztwo;
+    int n = kolejka.size();
+
+    if (typSasiedztwa == 1) {
+        // Swap neighborhood
+        for (int i = 0; i < n - 1; ++i) {
+            for (int j = i + 1; j < n; ++j) {
+                std::vector<int> nowaKolejka = kolejka;
+                std::swap(nowaKolejka[i], nowaKolejka[j]);
+                sasiedztwo.push_back(nowaKolejka);
+            }
+        }
+    } else if (typSasiedztwa == 2) {
+        // Insert neighborhood
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (i != j) {
+                    std::vector<int> nowaKolejka = kolejka;
+                    int temp = nowaKolejka[i];
+                    nowaKolejka.erase(nowaKolejka.begin() + i);
+                    nowaKolejka.insert(nowaKolejka.begin() + j, temp);
+                    sasiedztwo.push_back(nowaKolejka);
+                }
+            }
+        }
+    } else if (typSasiedztwa == 3) {
+        // Inversion neighborhood
+        for (int i = 0; i < n - 1; ++i) {
+            for (int j = i + 1; j < n; ++j) {
+                std::vector<int> nowaKolejka = kolejka;
+                std::reverse(nowaKolejka.begin() + i, nowaKolejka.begin() + j + 1);
+                sasiedztwo.push_back(nowaKolejka);
+            }
+        }
+    }
+
+    return sasiedztwo;
+}
+
+void Rozwiazanie::variableNeighborhoodSearch(Problem &problem) {
+    int maxIterations = 500;
+    int maxNeighborhoods = 2;
+
+    std::srand(std::time(nullptr));
+
+    Problem pocz_prob = NEH(problem);
+
+    std::vector<int> obecnaKolejka(pocz_prob.getDane().size());
+    for (int i = 0; i < problem.getDane().size(); ++i) {
+        obecnaKolejka[i] = pocz_prob.getDane()[i].getNum();
+    }
+
+    setNajlepszaKolejka(obecnaKolejka);
+    double obecnyCmax = obliczCmax(pocz_prob);
+
+    najlepszaKolejka = obecnaKolejka;
+    najlepszyCmax = obecnyCmax;
+
     int iterations = 0;
 
-    // Threshold Accepting loop
-    while (iterations < maxIterations && threshold > 0.1) {  // Example stopping conditions
-        // Generate a neighboring solution (perturb current solution)
-        perturbSolution(problem);
+    while (iterations < maxIterations) {
+        int k = 1;
 
-        // Compute Cmax for the perturbed solution
-        double newCmax = obliczCmax(problem);
+        while (k <= maxNeighborhoods) {
+            std::vector<std::vector<int>> sasiedztwo = generujSasiedztwo(obecnaKolejka, k);
+            std::vector<int> najlepszyKandydat = obecnaKolejka;
+            double najlepszyKandydatCmax = obecnyCmax;
 
-        // Acceptance criteria: Replace current solution if better
-        if (newCmax < currentCmax) {
-            currentCmax = newCmax;
-            for(int i=0;i<problem.getDane().size();i++){
-                najlepszaKolejka.push_back(problem.getDane()[i].getNum());
-            }
-            najlepszyCmax = currentCmax;  // Update najlepszyCmax
-        } else {
-            // Calculate acceptance probability
-            double acceptanceProbability = exp(-(newCmax - currentCmax) / threshold);
-
-            // Randomly decide whether to accept the worse solution
-            double randValue = static_cast<double>(rand()) / RAND_MAX;
-            if (randValue < acceptanceProbability) {
-                currentCmax = newCmax;
-                for(int i=0;i<problem.getDane().size();i++){
-                    najlepszaKolejka.push_back(problem.getDane()[i].getNum());
+            for (const auto &kandydat : sasiedztwo) {
+                Problem pom_problem = pocz_prob;
+                std::vector<Zadanie> tmp;
+                for (int i = 0; i < kandydat.size(); ++i) {
+                    for (int j = 0; j < problem.getDane().size(); ++j) {
+                        if (kandydat[i] == problem.getDane()[j].getNum()) {
+                            tmp.push_back(problem.getDane()[j]);
+                        }
+                    }
                 }
-                najlepszyCmax = currentCmax;  // Update najlepszyCmax
+
+                pom_problem.setDane(tmp);
+                double kandydatCmax = obliczCmax(pom_problem);
+
+                if (kandydatCmax < najlepszyKandydatCmax) {
+                    najlepszyKandydat = kandydat;
+                    najlepszyKandydatCmax = kandydatCmax;
+                }
+            }
+
+            if (najlepszyKandydatCmax < obecnyCmax) {
+                obecnaKolejka = najlepszyKandydat;
+                obecnyCmax = najlepszyKandydatCmax;
+                k = 1;
+            } else {
+                ++k;
             }
         }
 
-        // Decrease threshold (example: reduce it by a fixed amount)
-        threshold -= 0.0001;
-        iterations++;
+        if (obecnyCmax < najlepszyCmax) {
+            najlepszaKolejka = obecnaKolejka;
+            najlepszyCmax = obecnyCmax;
+        }
+
+        ++iterations;
     }
 
-    return najlepszyCmax;
+    setNajlepszaKolejka(najlepszaKolejka);
+    setNajlepszyCmax(najlepszyCmax);
 }
 
-void Rozwiazanie::perturbSolution(Problem& problem) {
-    // Example perturbation method: swap two random tasks
-    std::vector<Zadanie> tasks = problem.getDane();
-    int n = tasks.size();
+void Rozwiazanie::tabuSearch(Problem &problem) {
+    int tabuTenure = 10;
+    int maxIterations = 1000;
 
-    int idx1 = rand() % n;
-    int idx2 = rand() % n;
+    std::deque<std::vector<int>> tabuList;
 
-    if (idx1 != idx2) {
-        std::swap(tasks[idx1], tasks[idx2]);
+    std::srand(std::time(nullptr));
+
+    Problem pocz_prob = NEH(problem);
+
+    std::vector<int> obecnaKolejka(pocz_prob.getDane().size());
+    for (int i = 0; i < problem.getDane().size(); ++i) {
+        obecnaKolejka[i] = pocz_prob.getDane()[i].getNum();
     }
-}
 
-double Rozwiazanie::variableNeighborhoodSearchCmax(Problem& problem, int maxIterations, int neighborhoodSize) {
-    int iloscZadan = problem.getN();
-    int iloscMaszyn = problem.getM();
-    std::vector<Zadanie> zadania = problem.getDane();
+    setNajlepszaKolejka(obecnaKolejka);
+    double obecnyCmax = obliczCmax(pocz_prob);
 
-    // Initial solution and best found solution
-    std::vector<Zadanie> najlepszeRozwiazanie = zadania;
-    double najlepszyCmax = obliczCmax(problem);
+    najlepszaKolejka = obecnaKolejka;
+    najlepszyCmax = obecnyCmax;
 
-    // Current solution and current Cmax
-    std::vector<Zadanie> aktualneRozwiazanie = zadania;
-    double aktualnyCmax = najlepszyCmax;
+    int iterations = 0;
 
-    int iteracje = 0;
+    while (iterations < maxIterations) {
+        std::vector<int> bestCandidate = obecnaKolejka;
+        double bestCandidateCmax = obecnyCmax;
 
-    while (iteracje < maxIterations) {
-        for (int i = 0; i < neighborhoodSize; ++i) {
-            int idx1 = rand() % iloscZadan;
-            int idx2 = rand() % iloscZadan;
+        for (int i = 0; i < obecnaKolejka.size(); ++i) {
+            for (int j = i + 1; j < obecnaKolejka.size(); ++j) {
+                std::vector<int> candidate = obecnaKolejka;
+                std::swap(candidate[i], candidate[j]);
 
-            if (idx1 != idx2) {
-                std::swap(aktualneRozwiazanie[idx1], aktualneRozwiazanie[idx2]);
+                if (std::find(tabuList.begin(), tabuList.end(), candidate) != tabuList.end()) {
+                    continue;
+                }
+
+                Problem pom_problem = pocz_prob;
+                std::vector<Zadanie> tmp;
+                for (int k = 0; k < candidate.size(); ++k) {
+                    for (int l = 0; l < problem.getDane().size(); ++l) {
+                        if (candidate[k] == problem.getDane()[l].getNum()) {
+                            tmp.push_back(problem.getDane()[l]);
+                        }
+                    }
+                }
+
+                pom_problem.setDane(tmp);
+                double candidateCmax = obliczCmax(pom_problem);
+                // std::cout << candidateCmax << " - " << bestCandidateCmax << std::endl;
+
+                if (candidateCmax < bestCandidateCmax) {
+                    bestCandidate = candidate;
+                    bestCandidateCmax = candidateCmax;
+                }
             }
         }
 
-        double nowyCmax = obliczCmax(problem);
+        obecnaKolejka = bestCandidate;
+        obecnyCmax = bestCandidateCmax;
 
-        if (nowyCmax < aktualnyCmax) {
-            aktualnyCmax = nowyCmax;
-            najlepszeRozwiazanie = aktualneRozwiazanie;
-        } else {
-            double acceptanceProbability = exp(-(nowyCmax - aktualnyCmax) / iteracje);
-
-            double randValue = static_cast<double>(rand()) / RAND_MAX;
-            if (randValue < acceptanceProbability) {
-                aktualnyCmax = nowyCmax;
-                najlepszeRozwiazanie = aktualneRozwiazanie; 
-            }
+        tabuList.push_back(obecnaKolejka);
+        if (tabuList.size() > tabuTenure) {
+            tabuList.pop_front();
         }
 
-        iteracje++;
+        if (obecnyCmax < najlepszyCmax) {
+            najlepszaKolejka = obecnaKolejka;
+            najlepszyCmax = obecnyCmax;
+        }
+
+        ++iterations;
     }
 
-    problem.setDane(najlepszeRozwiazanie);
-
-    return najlepszyCmax;
+    setNajlepszaKolejka(najlepszaKolejka);
+    setNajlepszyCmax(najlepszyCmax);
 }

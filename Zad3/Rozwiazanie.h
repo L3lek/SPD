@@ -48,7 +48,7 @@ public:
 
     double obliczCmax(Problem &problem);
 
-    void NEH(Problem &problem);
+    Problem NEH(Problem &problem);
 
     void przeglad_zupelny(Problem &problem);
 
@@ -64,11 +64,13 @@ public:
 
     void symulowaneWyzarzanie(Problem &problem) ;
 
-    void perturbSolution(Problem& problem);
+    void thresholdAccepting(Problem &problem);
 
-    double thresholdAcceptingCmax(Problem& problem, double initialThreshold, int maxIterations);
+    std::vector<std::vector<int>> generujSasiedztwo(const std::vector<int> &kolejka, int typSasiedztwa);
 
-    double variableNeighborhoodSearchCmax(Problem& problem, int maxIterations, int neighborhoodSize);
+    void variableNeighborhoodSearch(Problem &problem);
+
+    void tabuSearch(Problem &problem);
 };
 
 

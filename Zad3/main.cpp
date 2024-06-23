@@ -11,7 +11,7 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    std::string nazwaPliku = "dane.txt";
+    std::string nazwaPliku = "test.txt";
     int nr = std::stoi(argv[1]);
 
     Problem test;
